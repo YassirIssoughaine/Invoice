@@ -28,6 +28,10 @@ import { useRouter } from 'vue-router';
         console.log('form',form.data)
         router.push('/invoice/new')
     }
+
+    const onShow = (id) => {
+        router.push('/invoice/show/'+id)
+    }
 </script>
 <template>
     <div class="container">
@@ -89,7 +93,9 @@ import { useRouter } from 'vue-router';
 
             <!-- item 1 -->
             <div class="table--items" v-for="item in Invoices" :key="item.id" v-if="Invoices.length > 0">
-                <a href="#" class="table--items--transactionId">#{{item.id}}</a>
+                <a href="#" @click="onShow(item.id)">
+                    #{{item.id}}
+                </a>
                 <p>{{item.date}}</p>
                 <p>#{{item.number}}</p>
                 <p v-if="item.customer">{{item.customer.firstName}}</p>

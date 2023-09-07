@@ -49,7 +49,7 @@ class InvoiceController extends Controller
             'due_date' => null,
             'reference' => null,
             'discount' => 0,
-            'term_and_conditions' => 'Default Terms and Conditions',
+            'terms_and_conditions' => 'Default Terms and Conditions',
             'items' => [
                 [
                     'product_id' => null,
@@ -80,10 +80,17 @@ class InvoiceController extends Controller
         foreach(json_decode($invoiceitem) as $item){
             $itemdata['product_id'] = $item->id;
             $itemdata['invoice_id'] = $invoice->id;
-            $itemdata['quantity_id'] = $item->quantity;
+            $itemdata['quantity'] = $item->quantity;
             $itemdata['unit_price'] = $item->unit_price;
 
             InvoiceItem::create($itemdata);
         }
+    }
+
+    public function show_invoice($id){
+        $invoice = Invoice::with(['customer','invoice_items.product'])->find($id);
+        return response()->json([
+            'invoice' => $invoice
+        ],200);
     }
 }
